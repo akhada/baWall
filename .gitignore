@@ -17,4 +17,4 @@ local.properties
 
 # idea related files
 .idea/
-.iml
+*.iml
