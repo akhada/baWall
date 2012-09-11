@@ -2,20 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-    <TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:text="Hello there"/>
+                android:layout_height="fill_parent" android:padding="5dip">
+    <LinearLayout android:id="@+id/content" android:layout_width="fill_parent" android:layout_height="fill_parent"
+                  android:orientation="vertical">
+        <EditText android:id="@+id/issueNumber" android:layout_width="fill_parent" android:layout_height="wrap_content"
+                  android:inputType="number" android:imeOptions="actionSearch" android:hint="@string/issueNumberHintText"/>
+    </LinearLayout>
     <LinearLayout android:layout_alignParentBottom="true" android:layout_width="fill_parent"
                   android:layout_height="wrap_content">
         <ImageButton android:contentDescription="@string/cameraCaptureContentDescription" android:layout_weight="1"
                      android:layout_width="wrap_content"
+                     android:onClick="onCameraCapture"
                      android:src="@android:drawable/ic_menu_camera"
                      android:layout_height="wrap_content"/>
         <ImageButton android:contentDescription="@string/keyboardCaptureContentDescription" android:layout_weight="1"
                      android:layout_width="wrap_content"
+                     android:onClick="onKeyboardCapture"
                      android:src="@android:drawable/ic_menu_edit"
                      android:layout_height="wrap_content"/>
         <ImageButton android:contentDescription="@string/gestureCaptureContentDescription" android:layout_weight="1"
                      android:src="@android:drawable/ic_menu_directions"
+                     android:onClick="onGestureCapture"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"/>
     </LinearLayout>

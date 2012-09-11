@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BaWall</string>
+    <string name="searchText">Search</string>
+    <string name="issueNumberHintText">PROJ-1234, 1234</string>
 </resources>
