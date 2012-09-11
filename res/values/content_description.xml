@@ -1,0 +1,5 @@
+<resources>
+    <string name="cameraCaptureContentDescription">Capture text using camera</string>
+    <string name="keyboardCaptureContentDescription">Input text using keyboard</string>
+    <string name="gestureCaptureContentDescription">Input text using gestures</string>
+</resources>

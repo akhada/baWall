@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Hello World, MyActivity"
-    />
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+    <TextView android:layout_height="fill_parent" android:layout_width="fill_parent" android:text="Hello there"/>
+    <LinearLayout android:layout_alignParentBottom="true" android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+        <ImageButton android:contentDescription="@string/cameraCaptureContentDescription" android:layout_weight="1"
+                     android:layout_width="wrap_content"
+                     android:src="@android:drawable/ic_menu_camera"
+                     android:layout_height="wrap_content"/>
+        <ImageButton android:contentDescription="@string/keyboardCaptureContentDescription" android:layout_weight="1"
+                     android:layout_width="wrap_content"
+                     android:src="@android:drawable/ic_menu_edit"
+                     android:layout_height="wrap_content"/>
+        <ImageButton android:contentDescription="@string/gestureCaptureContentDescription" android:layout_weight="1"
+                     android:src="@android:drawable/ic_menu_directions"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>
 
