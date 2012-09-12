@@ -1,6 +1,7 @@
-package com.example;
+package com.github.mobileartisans.bawall;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.R;
 
 public class HomeActivity extends Activity implements TextView.OnEditorActionListener {
     @Override
@@ -33,7 +35,9 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            Toast.makeText(this, "Search jira", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, IssueViewActivity.class);
+            intent.putExtra(IssueViewActivity.ISSUE_KEY, textView.getText());
+            startActivity(intent);
             return true;
         }
         return false;
