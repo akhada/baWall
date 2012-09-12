@@ -15,6 +15,10 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!new UserPreference(this).isSet()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
         setContentView(R.layout.main);
         EditText issueNumber = (EditText) findViewById(R.id.issueNumber);
         issueNumber.setOnEditorActionListener(this);
