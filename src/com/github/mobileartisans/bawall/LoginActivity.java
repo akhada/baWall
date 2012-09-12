@@ -22,7 +22,22 @@ public class LoginActivity extends Activity {
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
         EditText projectSite = (EditText) findViewById(R.id.projectSite);
-        new UserPreference(this).save(username.getText().toString(), password.getText().toString(), projectSite.getText().toString());
-        startActivity(new Intent(this, HomeActivity.class));
+        boolean isValid = validate(username, password, projectSite);
+        if (isValid) {
+            new UserPreference(this).save(username.getText().toString(), password.getText().toString(), projectSite.getText().toString());
+            startActivity(new Intent(this, HomeActivity.class));
+        }
     }
+
+    private boolean validate(EditText... requiredFields) {
+        boolean isValid = true;
+        for (EditText field : requiredFields) {
+            if (field.getText().toString().trim().length() == 0) {
+                field.setError("value is required");
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
 }
