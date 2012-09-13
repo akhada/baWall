@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/app_background"
+                android:padding="5dip"
+                android:orientation="vertical">
+    <TextView android:id="@+id/issueSummary"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:padding="5dip"
-              android:orientation="vertical">
-    <TextView android:id="@+id/issueSummary" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dummyIssueSummary" android:paddingBottom="10dip" android:paddingTop="10dip"/>
-    <Spinner android:id="@+id/issueAssignee" android:layout_width="fill_parent" android:layout_height="wrap_content" android:entries="@array/dummyAssignees" android:paddingBottom="10dip"/>
-    <Spinner android:id="@+id/issueTransitions" android:layout_width="fill_parent" android:layout_height="wrap_content" android:entries="@array/dummyTransitions" android:paddingBottom="10dip"/>
-</LinearLayout>
+              android:layout_height="wrap_content"
+              android:text="@string/dummyIssueSummary"
+              android:padding="10dip"
+              android:layout_margin="10dip"
+              android:textColor="@color/text"
+              android:textSize="22sp"
+              android:background="@color/text_background"/>
+    <Button android:id="@+id/issueAssignee"
+            android:layout_below="@+id/issueSummary"
+            android:layout_width="fill_parent"
+            android:layout_height="60dip"
+            android:contentDescription="@string/issueAssigneeContentDescription"
+            android:scaleType="centerInside"
+            android:drawableLeft="@drawable/card_assignee"
+            android:textSize="20sp"
+            android:layout_margin="10dip"
+            android:layout_marginTop="20dip"/>
+    <Spinner android:id="@+id/issueTransitions"
+             android:layout_below="@+id/issueAssignee"
+             android:layout_width="fill_parent"
+             android:layout_height="60dip"
+             android:layout_margin="10dip"
+             android:textSize="20sp"
+             android:entries="@array/dummyTransitions"
+             android:layout_marginTop="20dip"/>
+</RelativeLayout>

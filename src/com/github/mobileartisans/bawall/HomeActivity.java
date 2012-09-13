@@ -40,7 +40,7 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             Intent intent = new Intent(this, IssueViewActivity.class);
-            intent.putExtra(IssueViewActivity.ISSUE_KEY, textView.getText());
+            intent.putExtra(IssueViewActivity.ISSUE_KEY, textView.getEditableText().toString());
             startActivity(intent);
             return true;
         }

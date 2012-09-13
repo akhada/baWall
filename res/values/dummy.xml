@@ -2,11 +2,6 @@
     <string name="dummyIssueSummary">As a user I want to see the issue details so that I can take simple actions such as
         change assignee, comment etc
     </string>
-    <array name="dummyAssignees">
-        <item>Bob</item>
-        <item>John</item>
-        <item>Jane</item>
-    </array>
     <array name="dummyTransitions">
         <item>On hold</item>
         <item>In development</item>
