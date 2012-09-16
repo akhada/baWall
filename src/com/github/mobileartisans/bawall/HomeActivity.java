@@ -9,7 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.R;
+import com.github.mobileartisans.bawall.domain.UserPreference;
 
 public class HomeActivity extends Activity implements TextView.OnEditorActionListener {
     @Override
