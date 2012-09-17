@@ -1,11 +1,11 @@
 package com.github.mobileartisans.bawall;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
 import com.github.mobileartisans.bawall.domain.AkhadaClient;
 import com.github.mobileartisans.bawall.domain.Issue;
 import com.github.mobileartisans.bawall.domain.UserPreference;
@@ -22,16 +22,13 @@ public class IssueViewActivity extends Activity {
         setContentView(R.layout.issue);
         issueKey = getIntent().getExtras().getString(ISSUE_KEY);
         setTitle(issueKey);
-        new IssueDetailsTask().execute(issueKey);
+        new IssueDetailsTask(this).execute(issueKey);
     }
 
-    public class IssueDetailsTask extends AsyncTask<String, Void, Issue> {
-        private ProgressDialog dialog;
+    public class IssueDetailsTask extends ProgressAsyncTask<String, Void, Issue> {
 
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(IssueViewActivity.this);
-            dialog.show();
+        protected IssueDetailsTask(Context context) {
+            super(context);
         }
 
         @Override
@@ -46,25 +43,22 @@ public class IssueViewActivity extends Activity {
             Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
             TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
             Spinner issueTransitions = (Spinner) findViewById(R.id.issueTransitions);
+            issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus());
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
             SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
             issueTransitions.setAdapter(adapter);
-            dialog.dismiss();
         }
     }
 
     public void onListAssignee(View view) {
-        new IssueAssigneeTask().execute(issueKey);
+        new IssueAssigneeTask(this).execute(issueKey);
     }
 
-    public class IssueAssigneeTask extends AsyncTask<String, Void, List<String>> {
-        private ProgressDialog dialog;
+    public class IssueAssigneeTask extends ProgressAsyncTask<String, Void, List<String>> {
 
-        @Override
-        protected void onPreExecute() {
-            dialog = new ProgressDialog(IssueViewActivity.this);
-            dialog.show();
+        protected IssueAssigneeTask(Context context) {
+            super(context);
         }
 
         @Override
@@ -78,9 +72,35 @@ public class IssueViewActivity extends Activity {
             super.onPostExecute(strings);
             SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, strings);
             Spinner assigneeList = (Spinner) findViewById(R.id.issueAssigneeList);
+            assigneeList.setOnItemSelectedListener(new UpdateIssueAssignee());
             assigneeList.setAdapter(adapter);
             assigneeList.performClick();
-            dialog.dismiss();
+        }
+    }
+
+    private class UpdateIssueAssignee implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            String selectedAssignee = (String) parentView.getItemAtPosition(position);
+            Button assignee = (Button) findViewById(R.id.issueAssignee);
+            assignee.setText(selectedAssignee);
+            Toast.makeText(IssueViewActivity.this, selectedAssignee, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
+        }
+    }
+
+    private class UpdateIssueStatus implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            String selectedState = (String) parentView.getItemAtPosition(position);
+            Toast.makeText(IssueViewActivity.this, selectedState, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parentView) {
         }
     }
 }
