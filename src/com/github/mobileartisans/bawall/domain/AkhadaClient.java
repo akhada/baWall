@@ -1,10 +1,11 @@
 package com.github.mobileartisans.bawall.domain;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.util.Log;
+import com.google.gson.Gson;
 
 public class AkhadaClient {
 
+    public static final String TAG = AkhadaClient.class.getName();
     private UserPreference.Preference preference;
 
     public AkhadaClient(UserPreference.Preference preference) {
@@ -15,13 +16,10 @@ public class AkhadaClient {
         String url = String.format("%s/%s/issue/%s", preference.serviceSite, preference.projectSite, "TEST-1");
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
 
-        String response = simpleHttpClient.get();
-
-        Map<String, String> transitions = new HashMap<String, String>();
-        transitions.put("1", "Ready for Dev");
-        transitions.put("2", "In QA");
-        transitions.put("3", "On hold");
-        return new Issue("TEST-1", "Bob", "As a user I want to view the card status on my phone", transitions);
+        String json = simpleHttpClient.get();
+        Log.d(TAG, json);
+        Gson gson = new Gson();
+        return gson.fromJson(json, Issue.class);
     }
 
 }
