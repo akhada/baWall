@@ -1,6 +1,5 @@
 package com.github.mobileartisans.bawall.domain;
 
-import android.util.Log;
 import com.google.gson.Gson;
 
 public class AkhadaClient {
@@ -17,9 +16,16 @@ public class AkhadaClient {
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
 
         String json = simpleHttpClient.get();
-        Log.d(TAG, json);
         Gson gson = new Gson();
         return gson.fromJson(json, Issue.class);
     }
 
+    public Assignees getAssignees(String issueKey) {
+        String url = String.format("%s/%s/issue/%s/assignable", preference.serviceSite, preference.projectSite, "TEST-1");
+        SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
+
+        String json = simpleHttpClient.get();
+        Gson gson = new Gson();
+        return gson.fromJson(json, Assignees.class);
+    }
 }
