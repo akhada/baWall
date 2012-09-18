@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.github.mobileartisans.bawall.component.ItemSelectedListener;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
 import com.github.mobileartisans.bawall.domain.AkhadaClient;
 import com.github.mobileartisans.bawall.domain.Issue;
@@ -43,7 +44,7 @@ public class IssueViewActivity extends Activity {
             Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
             TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
             Spinner issueTransitions = (Spinner) findViewById(R.id.issueTransitions);
-            issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus());
+            issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus(issueTransitions.getSelectedItemPosition()));
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
             SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
@@ -72,35 +73,51 @@ public class IssueViewActivity extends Activity {
             super.onPostExecute(strings);
             SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, strings);
             Spinner assigneeList = (Spinner) findViewById(R.id.issueAssigneeList);
-            assigneeList.setOnItemSelectedListener(new UpdateIssueAssignee());
+            assigneeList.setOnItemSelectedListener(new UpdateIssueAssignee(assigneeList.getSelectedItemPosition()));
             assigneeList.setAdapter(adapter);
             assigneeList.performClick();
         }
     }
 
-    private class UpdateIssueAssignee implements AdapterView.OnItemSelectedListener {
+    private class UpdateIssueAssignee extends ItemSelectedListener {
+        protected UpdateIssueAssignee(int selectedItem) {
+            super(selectedItem);
+        }
+
         @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+        public void onSelectItem(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             String selectedAssignee = (String) parentView.getItemAtPosition(position);
             Button assignee = (Button) findViewById(R.id.issueAssignee);
             assignee.setText(selectedAssignee);
             Toast.makeText(IssueViewActivity.this, selectedAssignee, Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
-        }
     }
 
-    private class UpdateIssueStatus implements AdapterView.OnItemSelectedListener {
+    private class UpdateIssueStatus extends ItemSelectedListener {
+        protected UpdateIssueStatus(int selectedItem) {
+            super(selectedItem);
+        }
+
         @Override
-        public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+        public void onSelectItem(AdapterView<?> parentView, View selectedItemView, int position, long id) {
             String selectedState = (String) parentView.getItemAtPosition(position);
+            new UpdateIssueTask(IssueViewActivity.this).execute(issueKey, selectedState);
             Toast.makeText(IssueViewActivity.this, selectedState, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private class UpdateIssueTask extends ProgressAsyncTask<String, Void, Void> {
+        protected UpdateIssueTask(Context context) {
+            super(context);
+        }
+
         @Override
-        public void onNothingSelected(AdapterView<?> parentView) {
+        protected Void doInBackground(String... status) {
+            UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
+            new AkhadaClient(preference).updateStatus(issueKey, status[0]);
+            return null;
         }
     }
 }
