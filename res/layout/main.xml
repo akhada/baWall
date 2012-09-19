@@ -20,9 +20,10 @@
                      android:scaleType="center"
                      android:background="@android:color/transparent"
                      android:layout_height="wrap_content"/>
-        <ImageButton android:contentDescription="@string/keyboardCaptureContentDescription" android:layout_weight="1"
+        <ImageButton android:contentDescription="@string/voiceCaptureContentDescription" android:layout_weight="1"
+                     android:id="@+id/voiceCapture"
                      android:layout_width="wrap_content"
-                     android:onClick="onKeyboardCapture"
+                     android:onClick="onVoiceCapture"
                      android:src="@drawable/app_toolbar_mic"
                      android:paddingTop="3dip"
                      android:paddingBottom="5dip"
