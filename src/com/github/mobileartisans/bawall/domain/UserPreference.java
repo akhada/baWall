@@ -39,6 +39,11 @@ public class UserPreference {
         return new Preference(username, password, projectSite);
     }
 
+    public void clear() {
+        SharedPreferences preferences = getPreferences();
+        preferences.edit().clear().commit();
+    }
+
     public static class Preference {
         public final String username;
         public final String password;
