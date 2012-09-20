@@ -14,6 +14,12 @@ module Domain
       invalid_credentials_error_message_displayed?
     end
 
+    def logout
+      press_menu_button
+      press_log_out
+    end
+
+
   end
 end
 
