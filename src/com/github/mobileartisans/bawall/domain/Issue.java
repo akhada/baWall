@@ -26,11 +26,7 @@ public class Issue {
         return status;
     }
 
-    public List<String> getTransitions() {
-        List<String> result = new ArrayList<String>();
-        for (Transition transition : transitions) {
-            result.add(transition.getName());
-        }
-        return result;
+    public List<Transition> getTransitions() {
+        return transitions;
     }
 }

@@ -29,9 +29,9 @@ public class AkhadaClient {
         return gson.fromJson(json, Assignees.class);
     }
 
-    public void updateStatus(String issueKey, String status) {
+    public void updateStatus(String issueKey, Transition status) {
         String url = String.format("%s/%s/issue/%s/transition", preference.serviceSite, preference.projectSite, "TEST-1");
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
-        simpleHttpClient.post(String.format("{\"transition_id\":\"%s\"}", status));
+        simpleHttpClient.post(String.format("{\"transition_id\":\"%s\"}", status.getId()));
     }
 }

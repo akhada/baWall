@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.*;
 import com.github.mobileartisans.bawall.component.ItemSelectedListener;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
-import com.github.mobileartisans.bawall.domain.AkhadaClient;
-import com.github.mobileartisans.bawall.domain.Issue;
-import com.github.mobileartisans.bawall.domain.UserPreference;
+import com.github.mobileartisans.bawall.domain.*;
 
 import java.util.List;
 
@@ -47,7 +45,7 @@ public class IssueViewActivity extends Activity {
             issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus(issueTransitions.getSelectedItemPosition()));
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
-            SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
+            SpinnerAdapter adapter = new ArrayAdapter<Transition>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
             issueTransitions.setAdapter(adapter);
         }
     }
@@ -101,20 +99,20 @@ public class IssueViewActivity extends Activity {
 
         @Override
         public void onSelectItem(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            String selectedState = (String) parentView.getItemAtPosition(position);
-            new UpdateIssueTask(IssueViewActivity.this).execute(issueKey, selectedState);
-            Toast.makeText(IssueViewActivity.this, selectedState, Toast.LENGTH_SHORT).show();
+            Transition selectedState = (Transition) parentView.getItemAtPosition(position);
+            new UpdateIssueTask(IssueViewActivity.this).execute(selectedState);
+            Toast.makeText(IssueViewActivity.this, selectedState.getName(), Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private class UpdateIssueTask extends ProgressAsyncTask<String, Void, Void> {
+    private class UpdateIssueTask extends ProgressAsyncTask<Transition, Void, Void> {
         protected UpdateIssueTask(Context context) {
             super(context);
         }
 
         @Override
-        protected Void doInBackground(String... status) {
+        protected Void doInBackground(Transition... status) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
             new AkhadaClient(preference).updateStatus(issueKey, status[0]);
             return null;
