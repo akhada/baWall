@@ -74,7 +74,7 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            Toast.makeText(this, matches.toString(), Toast.LENGTH_SHORT);
+            Toast.makeText(this, matches.toString(), Toast.LENGTH_SHORT).show();
 
         }
         super.onActivityResult(requestCode, resultCode, data);
