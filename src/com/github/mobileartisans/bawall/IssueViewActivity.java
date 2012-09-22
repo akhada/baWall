@@ -25,6 +25,7 @@ public class IssueViewActivity extends Activity {
         issueKey = getIntent().getExtras().getString(ISSUE_KEY);
         setTitle("Loading issue details");
         new IssueDetailsTask(this).execute(issueKey);
+        bindBackButton();
     }
 
     public class IssueDetailsTask extends ProgressAsyncTask<String, Void, Issue> {
@@ -44,11 +45,12 @@ public class IssueViewActivity extends Activity {
             super.onPostExecute(issue);
             Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
             TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
+            TextView issueTitle = (TextView) findViewById(R.id.issueTitle);
             Spinner issueTransitions = (Spinner) findViewById(R.id.issueTransitions);
             issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus(issueTransitions.getSelectedItemPosition()));
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
-            setTitle(issue.getKey());
+            issueTitle.setText(issue.getKey());
             SpinnerAdapter adapter = new ArrayAdapter<Transition>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
             issueTransitions.setAdapter(adapter);
         }
@@ -121,5 +123,15 @@ public class IssueViewActivity extends Activity {
             new AkhadaClient(preference).updateStatus(issueKey, status[0]);
             return null;
         }
+    }
+
+    private void bindBackButton() {
+        ImageView backButton = (ImageView) this.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IssueViewActivity.this.finish();
+            }
+        });
     }
 }

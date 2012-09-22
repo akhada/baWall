@@ -1,31 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@drawable/app_background"
-                android:padding="5dip"
                 android:orientation="vertical">
+    <RelativeLayout
+            android:id="@+id/customHeader"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/header_background_color">
+        <TextView
+                android:id="@+id/issueTitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Issue number"
+                android:textColor="#9a0202"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true" />
+        <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/app_back"
+                android:layout_alignParentLeft="true" />
+
+    </RelativeLayout>
+    <LinearLayout android:id="@+id/headerBorder"
+                  android:background="@drawable/header_border"
+                  android:layout_width="fill_parent"
+                  android:layout_height="2dp" >
+    </LinearLayout>
     <TextView android:id="@+id/issueSummary"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:text="@string/dummyIssueSummary"
-              android:padding="10dip"
-              android:layout_margin="10dip"
+              android:paddingTop="10dip"
+              android:paddingBottom="10dip"
+              android:paddingLeft="15dip"
+              android:paddingRight="15dip"
+              android:layout_marginLeft="15dip"
+              android:layout_marginRight="15dip"
+              android:layout_marginTop="15dip"
+              android:layout_marginBottom="7dip"
               android:textColor="@color/text"
-              android:textSize="22sp"
+              android:textSize="20sp"
               android:background="@color/text_background"/>
     <Button android:id="@+id/issueAssignee"
             android:layout_below="@+id/issueSummary"
             android:layout_width="fill_parent"
-            android:layout_height="60dip"
+            android:layout_height="40dip"
             android:contentDescription="@string/issueAssigneeContentDescription"
             android:scaleType="centerInside"
             android:drawableLeft="@drawable/card_assignee"
+            android:drawablePadding="10dip"
+            android:paddingLeft="12dip"
+            android:paddingRight="22dip"
             android:textSize="20sp"
+            android:background="@color/text_background"
             android:onClick="onListAssignee"
-            android:layout_margin="10dip"
-            android:layout_marginTop="20dip"/>
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:layout_marginTop="7dip"
+            android:layout_marginBottom="7dip" />
     <Spinner android:id="@+id/issueAssigneeList"
              android:visibility="gone"
              android:layout_width="fill_parent"
@@ -33,9 +74,14 @@
     <Spinner android:id="@+id/issueTransitions"
              android:layout_below="@+id/issueAssignee"
              android:layout_width="fill_parent"
-             android:layout_height="60dip"
-             android:layout_margin="10dip"
+             android:layout_height="wrap_content"
+             android:paddingLeft="10dip"
+             android:paddingRight="10dip"
              android:textSize="20sp"
              android:entries="@array/dummyTransitions"
-             android:layout_marginTop="20dip"/>
-</RelativeLayout>
+             android:background="@color/text_background"
+             android:layout_marginLeft="15dip"
+             android:layout_marginRight="15dip"
+             android:layout_marginTop="7dip"
+             android:layout_marginBottom="7dip" />
+</LinearLayout>

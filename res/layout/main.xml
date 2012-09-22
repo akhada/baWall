@@ -3,7 +3,7 @@
                 android:orientation="vertical"
                 android:background="@drawable/app_background"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:padding="5dip">
+                android:layout_height="fill_parent">
     <LinearLayout android:id="@+id/content" android:layout_width="fill_parent" android:layout_height="fill_parent"
                   android:orientation="vertical">
         <EditText android:id="@+id/issueNumber" android:layout_width="fill_parent" android:layout_height="wrap_content"
