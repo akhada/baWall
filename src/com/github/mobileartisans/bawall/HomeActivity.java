@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,14 +82,22 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+        menu.add("Preferences");
         menu.add("Log out");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        new UserPreference(this).clear();
-        startActivity(new Intent(this, LoginActivity.class));
-        return true;
+        if ("Log out".equals(item.getTitle())) {
+            new UserPreference(this).clear();
+            startActivity(new Intent(this, LoginActivity.class));
+            return true;
+        }
+        if ("Preferences".equals(item.getTitle())) {
+            startActivity(new Intent(this, ProjectPreference.class));
+            return true;
+        }
+        return false;
     }
 }

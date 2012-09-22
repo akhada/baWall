@@ -1,6 +1,5 @@
 package com.github.mobileartisans.bawall.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Issue {

@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.*;
 import com.github.mobileartisans.bawall.component.ItemSelectedListener;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
-import com.github.mobileartisans.bawall.domain.*;
+import com.github.mobileartisans.bawall.domain.AkhadaClient;
+import com.github.mobileartisans.bawall.domain.Issue;
+import com.github.mobileartisans.bawall.domain.Transition;
+import com.github.mobileartisans.bawall.domain.UserPreference;
 
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class IssueViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.issue);
         issueKey = getIntent().getExtras().getString(ISSUE_KEY);
-        setTitle(issueKey);
+        setTitle("Loading issue details");
         new IssueDetailsTask(this).execute(issueKey);
     }
 
@@ -45,6 +48,7 @@ public class IssueViewActivity extends Activity {
             issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus(issueTransitions.getSelectedItemPosition()));
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
+            setTitle(issue.getKey());
             SpinnerAdapter adapter = new ArrayAdapter<Transition>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
             issueTransitions.setAdapter(adapter);
         }

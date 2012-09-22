@@ -8,6 +8,7 @@ public class UserPreference {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String PROJECT_SITE = "projectSite";
+    private static final String DEFAULT_PROJECT = "defaultProject";
     private Context context;
 
     public UserPreference(Context context) {
@@ -24,6 +25,7 @@ public class UserPreference {
         editor.putString(USERNAME, preference.username);
         editor.putString(PASSWORD, preference.password);
         editor.putString(PROJECT_SITE, preference.projectSite);
+        editor.putString(DEFAULT_PROJECT, preference.defaultProject);
         editor.commit();
     }
 
@@ -36,7 +38,8 @@ public class UserPreference {
         String username = preferences.getString(USERNAME, null);
         String password = preferences.getString(PASSWORD, null);
         String projectSite = preferences.getString(PROJECT_SITE, null);
-        return new Preference(username, password, projectSite);
+        String defaultProject = preferences.getString(DEFAULT_PROJECT, null);
+        return new Preference(username, password, projectSite, defaultProject);
     }
 
     public void clear() {
@@ -44,20 +47,35 @@ public class UserPreference {
         preferences.edit().clear().commit();
     }
 
+    public void update(PreferenceUpdate preferenceUpdate) {
+        Preference preference = getPreference();
+        save(preferenceUpdate.update(preference));
+    }
+
+    public interface PreferenceUpdate {
+        Preference update(Preference preference);
+    }
+
     public static class Preference {
         public final String username;
         public final String password;
         public final String projectSite;
+        public final String defaultProject;
         public final String serviceSite = "https://bawall.herokuapp.com";
 
-        public Preference(String username, String password, String projectSite) {
+        public Preference(String username, String password, String projectSite, String defaultProject) {
             this.username = username;
             this.password = password;
             this.projectSite = projectSite;
+            this.defaultProject = defaultProject;
         }
 
         public boolean isValid() {
             return username != null && password != null & projectSite != null;
+        }
+
+        public Preference withDefaultProject(String selectedProject) {
+            return new Preference(username, password, projectSite, selectedProject);
         }
     }
 }

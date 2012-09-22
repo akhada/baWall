@@ -19,9 +19,9 @@ public class LoginActivity extends Activity {
         EditText projectSite = (EditText) findViewById(R.id.projectSite);
         boolean isValid = validate(username, password, projectSite);
         if (isValid) {
-            UserPreference.Preference preference = new UserPreference.Preference(username.getText().toString(), password.getText().toString(), projectSite.getText().toString());
+            UserPreference.Preference preference = new UserPreference.Preference(username.getText().toString(), password.getText().toString(), projectSite.getText().toString(), null);
             new UserPreference(this).save(preference);
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, ProjectPreference.class));
         }
     }
 

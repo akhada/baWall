@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     private ProgressDialog dialog;
-    private Context context;
+    protected Context context;
 
     protected ProgressAsyncTask(Context context) {
         this.context = context;
