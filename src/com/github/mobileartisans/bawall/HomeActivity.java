@@ -51,6 +51,7 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say issue number...");
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 
@@ -61,9 +62,8 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            Intent intent = new Intent(this, IssueViewActivity.class);
-            intent.putExtra(IssueViewActivity.ISSUE_KEY, textView.getEditableText().toString());
-            startActivity(intent);
+            String issueKey = textView.getEditableText().toString();
+            openIssue(issueKey);
             return true;
         }
         return false;
@@ -73,7 +73,14 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-            Toast.makeText(this, matches.toString(), Toast.LENGTH_SHORT).show();
+            if (matches == null || matches.isEmpty()) {
+                Toast.makeText(this, "Voice match failed", Toast.LENGTH_SHORT);
+            } else {
+                EditText issueNumber = (EditText) findViewById(R.id.issueNumber);
+                String issueKey = matches.get(0);
+                issueNumber.setText(issueKey.replaceAll("[^\\d]", ""));
+                openIssue(issueKey);
+            }
 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -100,4 +107,11 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
         }
         return false;
     }
+
+    private void openIssue(String issue_key) {
+        Intent intent = new Intent(this, IssueViewActivity.class);
+        intent.putExtra(IssueViewActivity.ISSUE_KEY, issue_key);
+        startActivity(intent);
+    }
+
 }

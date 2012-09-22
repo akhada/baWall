@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">BaWall</string>
     <string name="searchText">Search</string>
-    <string name="issueNumberHintText">PROJ-1234, 1234</string>
+    <string name="issueNumberHintText">For PROJ-1234, use 1234</string>
     <string name="usernameHintText">Username</string>
     <string name="passwordHintText">Password</string>
     <string name="projectSiteHintText">myproj.atlassian.net</string>
