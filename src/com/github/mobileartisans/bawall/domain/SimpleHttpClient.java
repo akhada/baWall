@@ -32,10 +32,18 @@ public class SimpleHttpClient {
     }
 
     protected String post(String body) {
+        return requestWithBody(body, "POST");
+    }
+
+    public String put(String body) {
+        return requestWithBody(body, "PUT");
+    }
+
+    private String requestWithBody(String body, String method) {
         try {
             URL url = new URL(this.url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
+            con.setRequestMethod(method);
             con.addRequestProperty("Authorization", "basic " + new String(Base64.encode((username + ":" + password).getBytes(), Base64.NO_WRAP)));
             con.setRequestProperty("Content-Length", Integer.toString(body.getBytes().length));
             con.setUseCaches(false);
@@ -49,7 +57,6 @@ public class SimpleHttpClient {
         } catch (Exception e) {
             throw new HttpClientException(HttpClientException.ClientError.UNKNOWN);
         }
-
     }
 
     private String getResponseAsString(HttpURLConnection con) throws IOException {

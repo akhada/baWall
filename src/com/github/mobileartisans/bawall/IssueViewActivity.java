@@ -98,9 +98,24 @@ public class IssueViewActivity extends Activity {
             String selectedAssignee = (String) parentView.getItemAtPosition(position);
             Button assignee = (Button) findViewById(R.id.issueAssignee);
             assignee.setText(selectedAssignee);
+            new UpdateIssueAssigneeTask(IssueViewActivity.this).execute(selectedAssignee);
             Toast.makeText(IssueViewActivity.this, selectedAssignee, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private class UpdateIssueAssigneeTask extends ProgressAsyncTask<String, Void, Void> {
+
+        protected UpdateIssueAssigneeTask(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected Void process(String... assignees) {
+            UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
+            new AkhadaClient(preference).updateAssignee(issueKey, assignees[0]);
+            return null;
+        }
     }
 
     private class UpdateIssueStatus extends ItemSelectedListener {

@@ -49,4 +49,10 @@ public class AkhadaClient {
     private String toIssue(String issueKey) {
         return String.format("%s-%s", preference.defaultProject, issueKey);
     }
+
+    public void updateAssignee(String issueKey, String assignee) {
+        String url = String.format("%s/%s/issue/%s/assignee", preference.serviceSite, preference.projectSite, toIssue(issueKey));
+        SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
+        simpleHttpClient.put(String.format("{\"name\":\"%s\"}", assignee));
+    }
 }
