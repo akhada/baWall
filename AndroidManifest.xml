@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.crittercism.NotificationActivity"/>
         <activity android:name="com.github.mobileartisans.bawall.IssueViewActivity"/>
         <activity android:name="com.github.mobileartisans.bawall.ProjectPreference"/>
         <activity android:name="com.github.mobileartisans.bawall.LoginActivity" android:label="Login"/>

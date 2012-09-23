@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.crittercism.app.Crittercism;
 import com.github.mobileartisans.bawall.domain.UserPreference;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crittercism.init(getApplicationContext(), "505ecde4be790e36c6000002");
         if (!new UserPreference(this).isSet()) {
             startActivity(new Intent(this, LoginActivity.class));
             return;
