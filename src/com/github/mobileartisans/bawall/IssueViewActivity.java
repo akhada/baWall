@@ -2,6 +2,7 @@ package com.github.mobileartisans.bawall;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -35,14 +36,13 @@ public class IssueViewActivity extends Activity {
         }
 
         @Override
-        protected Issue doInBackground(String... issueKeys) {
+        protected Issue process(String... issueKeys) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
             return new AkhadaClient(preference).getIssue(issueKeys[0]);
         }
 
         @Override
-        protected void onPostExecute(Issue issue) {
-            super.onPostExecute(issue);
+        protected void onSuccess(Issue issue) {
             Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
             TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
             TextView issueTitle = (TextView) findViewById(R.id.issueTitle);
@@ -53,6 +53,12 @@ public class IssueViewActivity extends Activity {
             issueTitle.setText(issue.getKey());
             SpinnerAdapter adapter = new ArrayAdapter<Transition>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
             issueTransitions.setAdapter(adapter);
+        }
+
+        @Override
+        protected void onNotFound() {
+            Toast.makeText(context, issueKey + " not found", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(IssueViewActivity.this, HomeActivity.class));
         }
     }
 
@@ -67,14 +73,13 @@ public class IssueViewActivity extends Activity {
         }
 
         @Override
-        protected List<String> doInBackground(String... issueKeys) {
+        protected List<String> process(String... issueKeys) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
             return new AkhadaClient(preference).getAssignees(issueKeys[0]).getUsers();
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
-            super.onPostExecute(strings);
+        protected void onSuccess(List<String> strings) {
             SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, strings);
             Spinner assigneeList = (Spinner) findViewById(R.id.issueAssigneeList);
             assigneeList.setOnItemSelectedListener(new UpdateIssueAssignee(assigneeList.getSelectedItemPosition()));
@@ -118,7 +123,7 @@ public class IssueViewActivity extends Activity {
         }
 
         @Override
-        protected Void doInBackground(Transition... status) {
+        protected Void process(Transition... status) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
             new AkhadaClient(preference).updateStatus(issueKey, status[0]);
             return null;

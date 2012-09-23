@@ -42,19 +42,17 @@ public class ProjectPreference extends ListActivity {
         }
 
         @Override
-        protected List<String> doInBackground(Void... param) {
+        protected List<String> process(Void... param) {
             UserPreference.Preference preference = new UserPreference(context).getPreference();
             return new AkhadaClient(preference).getProjects();
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
-            super.onPostExecute(strings);
+        protected void onSuccess(List<String> strings) {
             projectList = strings;
             UserPreference.Preference preference = new UserPreference(ProjectPreference.this).getPreference();
             setListAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_checked, projectList));
             getListView().setItemChecked(projectList.indexOf(preference.defaultProject), true);
-
         }
     }
 
