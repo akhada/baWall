@@ -8,6 +8,8 @@ import android.widget.Toast;
 import com.github.mobileartisans.bawall.LoginActivity;
 import com.github.mobileartisans.bawall.domain.HttpClientException;
 
+import static com.github.mobileartisans.bawall.domain.HttpClientException.ClientError.*;
+
 public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     private ProgressDialog dialog;
     protected Context context;
@@ -54,13 +56,13 @@ public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncT
     @Override
     protected final void onPostExecute(Result result) {
         super.onPostExecute(result);
-        if (result != null) {
+        if (e == null) {
             onSuccess(result);
-        } else if (e.error.equals(HttpClientException.ClientError.UNKNOWN)) {
+        } else if (UNKNOWN.equals(e.error)) {
             onError();
-        } else if (e.error.equals(HttpClientException.ClientError.NOT_FOUND)) {
+        } else if (NOT_FOUND.equals(e.error)) {
             onNotFound();
-        } else if (e.error.equals(HttpClientException.ClientError.UNAUTHORIZED)) {
+        } else if (UNAUTHORIZED.equals(e.error)) {
             onUnAuthorized();
         }
         dialog.dismiss();

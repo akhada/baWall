@@ -57,7 +57,7 @@ public class IssueViewActivity extends Activity {
 
         @Override
         protected void onNotFound() {
-            Toast.makeText(context, issueKey + " not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Issue not found", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(IssueViewActivity.this, HomeActivity.class));
         }
     }

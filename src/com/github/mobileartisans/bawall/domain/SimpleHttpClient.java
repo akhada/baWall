@@ -26,6 +26,8 @@ public class SimpleHttpClient {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.addRequestProperty("Authorization", "basic " + new String(Base64.encode((username + ":" + password).getBytes(), Base64.NO_WRAP)));
             return getResponseAsString(con);
+        } catch (HttpClientException e) {
+            throw e;
         } catch (Exception e) {
             throw new HttpClientException(HttpClientException.ClientError.UNKNOWN);
         }
@@ -54,6 +56,8 @@ public class SimpleHttpClient {
             wr.flush();
             wr.close();
             return getResponseAsString(con);
+        } catch (HttpClientException e) {
+            throw e;
         } catch (Exception e) {
             throw new HttpClientException(HttpClientException.ClientError.UNKNOWN);
         }
