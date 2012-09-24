@@ -1,17 +1,16 @@
 package com.github.mobileartisans.bawall;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.github.mobileartisans.bawall.component.ItemSelectedListener;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
-import com.github.mobileartisans.bawall.domain.AkhadaClient;
-import com.github.mobileartisans.bawall.domain.Issue;
-import com.github.mobileartisans.bawall.domain.Transition;
-import com.github.mobileartisans.bawall.domain.UserPreference;
+import com.github.mobileartisans.bawall.domain.*;
 
 import java.util.List;
 
@@ -66,42 +65,41 @@ public class IssueViewActivity extends Activity {
         new IssueAssigneeTask(this).execute(issueKey);
     }
 
-    public class IssueAssigneeTask extends ProgressAsyncTask<String, Void, List<String>> {
+    public class IssueAssigneeTask extends ProgressAsyncTask<String, Void, Assignees> {
 
         protected IssueAssigneeTask(Context context) {
             super(context);
         }
 
         @Override
-        protected List<String> process(String... issueKeys) {
+        protected Assignees process(String... issueKeys) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
-            return new AkhadaClient(preference).getAssignees(issueKeys[0]).getUsers();
+            return new AkhadaClient(preference).getAssignees(issueKeys[0]);
         }
 
         @Override
-        protected void onSuccess(List<String> strings) {
-            SpinnerAdapter adapter = new ArrayAdapter<String>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, strings);
-            Spinner assigneeList = (Spinner) findViewById(R.id.issueAssigneeList);
-            assigneeList.setOnItemSelectedListener(new UpdateIssueAssignee(assigneeList.getSelectedItemPosition()));
-            assigneeList.setAdapter(adapter);
-            assigneeList.performClick();
+        protected void onSuccess(Assignees assignees) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(IssueViewActivity.this);
+            builder.setTitle("Change assignee to ...");
+            builder.setItems(assignees.getUserNames(), new UpdateIssueAssignee(assignees)).create().show();
         }
     }
 
-    private class UpdateIssueAssignee extends ItemSelectedListener {
-        protected UpdateIssueAssignee(int selectedItem) {
-            super(selectedItem);
+    private class UpdateIssueAssignee implements DialogInterface.OnClickListener {
+
+        private Assignees assignees;
+
+        public UpdateIssueAssignee(Assignees assignees) {
+            this.assignees = assignees;
         }
 
         @Override
-        public void onSelectItem(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            String selectedAssignee = (String) parentView.getItemAtPosition(position);
+        public void onClick(DialogInterface dialogInterface, int index) {
+            User user = assignees.getUsers().get(index);
             Button assignee = (Button) findViewById(R.id.issueAssignee);
-            assignee.setText(selectedAssignee);
-            new UpdateIssueAssigneeTask(IssueViewActivity.this).execute(selectedAssignee);
-            Toast.makeText(IssueViewActivity.this, selectedAssignee, Toast.LENGTH_SHORT).show();
+            assignee.setText(user.getDisplayName());
+            new UpdateIssueAssigneeTask(IssueViewActivity.this).execute(user.getName());
         }
-
     }
 
     private class UpdateIssueAssigneeTask extends ProgressAsyncTask<String, Void, Void> {

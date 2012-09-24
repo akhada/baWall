@@ -6,11 +6,15 @@ import java.util.List;
 public class Assignees {
     private List<User> users;
 
-    public List<String> getUsers() {
-        List<String> result = new ArrayList<String>();
-        for (User user : users) {
-            result.add(user.getDisplayName());
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public String[] getUserNames() {
+        String[] userNames = new String[users.size()];
+        for (int i = 0; i < users.size(); i++) {
+            userNames[i] = users.get(i).getDisplayName();
         }
-        return result;
+        return userNames;
     }
 }
