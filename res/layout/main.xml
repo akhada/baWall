@@ -11,13 +11,15 @@
                   android:hint="@string/issueNumberHintText"/>
         <Button android:id="@+id/fakeButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone" android:onClick="onOpenIssue"/>
     </LinearLayout>
-    <LinearLayout android:layout_alignParentBottom="true" android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:background="@android:color/white">
+    <LinearLayout android:layout_alignParentBottom="true"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@android:color/white"
+                  android:padding="7dip">
         <ImageButton android:contentDescription="@string/cameraCaptureContentDescription" android:layout_weight="1"
                      android:layout_width="wrap_content"
                      android:onClick="onCameraCapture"
-                     android:src="@drawable/app_toolbar_camera"
-                     android:paddingTop="10dip"
+                     android:src="@drawable/toolbar_camera_button"
                      android:scaleType="center"
                      android:background="@android:color/transparent"
                      android:layout_height="wrap_content"/>
@@ -25,16 +27,13 @@
                      android:id="@+id/voiceCapture"
                      android:layout_width="wrap_content"
                      android:onClick="onVoiceCapture"
-                     android:src="@drawable/app_toolbar_mic"
-                     android:paddingTop="3dip"
-                     android:paddingBottom="5dip"
+                     android:src="@drawable/toolbar_mic_button"
                      android:scaleType="center"
                      android:background="@android:color/transparent"
                      android:layout_height="wrap_content"/>
         <ImageButton android:contentDescription="@string/gestureCaptureContentDescription" android:layout_weight="1"
-                     android:src="@drawable/app_toolbar_new"
+                     android:src="@drawable/toolbar_new_button"
                      android:background="@android:color/transparent"
-                     android:paddingTop="10dip"
                      android:scaleType="center"
                      android:onClick="onGestureCapture"
                      android:layout_width="wrap_content"
