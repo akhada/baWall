@@ -9,6 +9,10 @@ module Screen
       performAction('select_from_menu', "Log out")
     end
 
+    def press_list_item(project)
+      click_on_text(project)
+    end
+
   end
 end
 

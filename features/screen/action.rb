@@ -5,6 +5,10 @@ module Screen
       performAction('enter_text_into_id_field', value, field)
     end
 
+    def press_text_field(field)
+      performAction('click_on_view_by_id', field)
+    end
+
     def touch_button_with_text(text)
       performAction('press_button_with_text',text)
     end
@@ -21,7 +25,7 @@ module Screen
       performAction('click_on_view_by_id',button_id)
     end
 
-    def choose_radio_button(item)
+    def click_on_text(item)
       performAction('click_on_text',item)
     end
 

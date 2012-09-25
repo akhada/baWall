@@ -6,7 +6,7 @@ module Screen
     end
 
     def choose_owner(owner)
-      choose_radio_button(owner)
+      click_on_text(owner)
     end
 
     def press_state_spinner
@@ -14,7 +14,7 @@ module Screen
     end
 
     def select_state(state)
-      choose_radio_button(state)
+      click_on_text(state)
     end
 
 

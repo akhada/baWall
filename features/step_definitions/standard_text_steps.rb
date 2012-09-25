@@ -15,7 +15,7 @@ Then /^I should not be logged-in$/ do
 end
 
 When /^I login with valid credentials$/ do
-  login("anay","p@ssw0rd","bawall.atlassian.net")
+  login("admin","p@ssw0rd","bawall.atlassian.net")
 end
 
 Then /^I search the status for story number "([^"]*)"$/ do |story_number|
@@ -32,4 +32,8 @@ end
 
 When /^I should be able to logout$/ do
   logout
+end
+
+When /^I select the project "([^"]*)"$/ do |project|
+  select_project(project)
 end

@@ -3,7 +3,6 @@ module Domain
 
    def search_card_in_standard_text_feature(story_number)
      fill_in_card_number(story_number)
-     press_keypad_enter_button
    end
 
     def assign_card_to(owner)
