@@ -28,6 +28,6 @@ https://github.com/MobileArtisans/baWall/issues
 
 The latest version of the application is generally available at the following location: [http://db.tt/Crv7td6N](http://db.tt/Crv7td6N)
 
-Do report any issues (usability/functional) that you encounter. We currently track application crashes using [crittercism](www.crittercism.com).
+Do report any issues (usability/functional) that you encounter. We currently track application crashes using [crittercism](http://www.crittercism.com).
 
 
