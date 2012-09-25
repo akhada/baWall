@@ -9,6 +9,7 @@
         <EditText android:id="@+id/issueNumber" android:layout_width="fill_parent" android:layout_height="wrap_content"
                   android:inputType="number" android:imeOptions="actionSearch"
                   android:hint="@string/issueNumberHintText"/>
+        <Button android:id="@+id/fakeButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone" android:onClick="onOpenIssue"/>
     </LinearLayout>
     <LinearLayout android:layout_alignParentBottom="true" android:layout_width="fill_parent"
                   android:layout_height="wrap_content" android:background="@android:color/white">

@@ -19,3 +19,6 @@ local.properties
 .idea/
 *.iml
 out/
+
+#bundler related files
+.bundle/

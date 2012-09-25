@@ -64,11 +64,21 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            String issueKey = textView.getEditableText().toString();
-            openIssue(issueKey);
+            openIssue(textView);
             return true;
         }
         return false;
+    }
+
+    private void openIssue(TextView textView) {
+        String issueKey = textView.getEditableText().toString();
+        Intent intent = new Intent(this, IssueViewActivity.class);
+        intent.putExtra(IssueViewActivity.ISSUE_KEY, issueKey);
+        startActivity(intent);
+    }
+
+    public void onOpenIssue(View view) {
+        openIssue((TextView) findViewById(R.id.issueNumber));
     }
 
     @Override
@@ -81,7 +91,9 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
                 EditText issueNumber = (EditText) findViewById(R.id.issueNumber);
                 String issueKey = matches.get(0);
                 issueNumber.setText(issueKey.replaceAll("[^\\d]", ""));
-                openIssue(issueKey);
+                Intent intent = new Intent(this, IssueViewActivity.class);
+                intent.putExtra(IssueViewActivity.ISSUE_KEY, issueKey);
+                startActivity(intent);
             }
 
         }
@@ -108,12 +120,6 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
             return true;
         }
         return false;
-    }
-
-    private void openIssue(String issue_key) {
-        Intent intent = new Intent(this, IssueViewActivity.class);
-        intent.putExtra(IssueViewActivity.ISSUE_KEY, issue_key);
-        startActivity(intent);
     }
 
 }
