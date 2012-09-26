@@ -28,4 +28,8 @@ public class Issue {
     public List<Transition> getTransitions() {
         return transitions;
     }
+
+    public static String buildKey(String project, String key) {
+        return String.format("%s-%s", project, key);
+    }
 }

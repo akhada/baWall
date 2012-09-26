@@ -21,15 +21,15 @@ public class IssueViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.issue);
         issueKey = getIntent().getExtras().getString(ISSUE_KEY);
-        setTitle("Loading issue details");
-        new IssueDetailsTask(this).execute(issueKey);
+        setTitle("Loading " + issueKey + " details");
+        new IssueDetailsTask(this, "Loading " + issueKey + " details").execute(issueKey);
         bindBackButton();
     }
 
     public class IssueDetailsTask extends ProgressAsyncTask<String, Void, Issue> {
 
-        protected IssueDetailsTask(Context context) {
-            super(context, "Loading issue details");
+        protected IssueDetailsTask(Context context, String message) {
+            super(context, message);
         }
 
         @Override

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class AkhadaClient {
 
-    public static final String TAG = AkhadaClient.class.getName();
     private UserPreference.Preference preference;
 
     public AkhadaClient(UserPreference.Preference preference) {
@@ -14,7 +13,7 @@ public class AkhadaClient {
     }
 
     public Issue getIssue(String issueKey) {
-        String url = String.format("%s/%s/issue/%s", preference.serviceSite, preference.projectSite, toIssue(issueKey));
+        String url = String.format("%s/%s/issue/%s", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
 
         String json = simpleHttpClient.get();
@@ -23,7 +22,7 @@ public class AkhadaClient {
     }
 
     public Assignees getAssignees(String issueKey) {
-        String url = String.format("%s/%s/issue/%s/assignable", preference.serviceSite, preference.projectSite, toIssue(issueKey));
+        String url = String.format("%s/%s/issue/%s/assignable", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
 
         String json = simpleHttpClient.get();
@@ -32,7 +31,7 @@ public class AkhadaClient {
     }
 
     public void updateStatus(String issueKey, Transition status) {
-        String url = String.format("%s/%s/issue/%s/transition", preference.serviceSite, preference.projectSite, toIssue(issueKey));
+        String url = String.format("%s/%s/issue/%s/transition", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
         simpleHttpClient.post(String.format("{\"transition_id\":\"%s\"}", status.getId()));
     }
@@ -46,12 +45,8 @@ public class AkhadaClient {
         return gson.fromJson(json, List.class);
     }
 
-    private String toIssue(String issueKey) {
-        return String.format("%s-%s", preference.defaultProject, issueKey);
-    }
-
     public void updateAssignee(String issueKey, String assignee) {
-        String url = String.format("%s/%s/issue/%s/assignee", preference.serviceSite, preference.projectSite, toIssue(issueKey));
+        String url = String.format("%s/%s/issue/%s/assignee", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
         simpleHttpClient.put(String.format("{\"name\":\"%s\"}", assignee));
     }

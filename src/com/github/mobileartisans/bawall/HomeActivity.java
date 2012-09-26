@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.crittercism.app.Crittercism;
+import com.github.mobileartisans.bawall.domain.Issue;
 import com.github.mobileartisans.bawall.domain.UserPreference;
 
 import java.util.List;
@@ -72,9 +73,7 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
 
     private void openIssue(TextView textView) {
         String issueKey = textView.getEditableText().toString();
-        Intent intent = new Intent(this, IssueViewActivity.class);
-        intent.putExtra(IssueViewActivity.ISSUE_KEY, issueKey);
-        startActivity(intent);
+        openIssue(issueKey);
     }
 
     public void onOpenIssue(View view) {
@@ -91,13 +90,18 @@ public class HomeActivity extends Activity implements TextView.OnEditorActionLis
                 EditText issueNumber = (EditText) findViewById(R.id.issueNumber);
                 String issueKey = matches.get(0);
                 issueNumber.setText(issueKey.replaceAll("[^\\d]", ""));
-                Intent intent = new Intent(this, IssueViewActivity.class);
-                intent.putExtra(IssueViewActivity.ISSUE_KEY, issueKey);
-                startActivity(intent);
+                openIssue(issueKey);
             }
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void openIssue(String issueKey) {
+        Intent intent = new Intent(this, IssueViewActivity.class);
+        UserPreference.Preference preference = new UserPreference(this).getPreference();
+        intent.putExtra(IssueViewActivity.ISSUE_KEY, Issue.buildKey(preference.defaultProject, issueKey));
+        startActivity(intent);
     }
 
     @Override
