@@ -7,10 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import com.github.mobileartisans.bawall.component.ItemSelectedListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
 import com.github.mobileartisans.bawall.domain.*;
+
+import java.util.List;
 
 public class IssueViewActivity extends Activity {
     public static final String ISSUE_KEY = "issueKey";
@@ -39,17 +43,23 @@ public class IssueViewActivity extends Activity {
         }
 
         @Override
-        protected void onSuccess(Issue issue) {
+        protected void onSuccess(final Issue issue) {
             Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
             TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
             TextView issueTitle = (TextView) findViewById(R.id.issueTitle);
-            Spinner issueTransitions = (Spinner) findViewById(R.id.issueTransitions);
-            issueTransitions.setOnItemSelectedListener(new UpdateIssueStatus(issueTransitions.getSelectedItemPosition()));
+            Button issueTransitions = (Button) findViewById(R.id.issueTransitions);
+            issueTransitions.setText(issue.getStatus());
+            issueTransitions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IssueViewActivity.this);
+                    builder.setTitle("Transition to...");
+                    builder.setItems(issue.getTransitionNames(), new UpdateIssueStatus(issue.getTransitions())).create().show();
+                }
+            });
             issueAssignee.setText(issue.getAssignee());
             issueSummary.setText(issue.getSummary());
             issueTitle.setText(issue.getKey());
-            SpinnerAdapter adapter = new ArrayAdapter<Transition>(IssueViewActivity.this, android.R.layout.simple_spinner_dropdown_item, issue.getTransitions());
-            issueTransitions.setAdapter(adapter);
         }
 
         @Override
@@ -114,18 +124,21 @@ public class IssueViewActivity extends Activity {
         }
     }
 
-    private class UpdateIssueStatus extends ItemSelectedListener {
-        protected UpdateIssueStatus(int selectedItem) {
-            super(selectedItem);
+    private class UpdateIssueStatus implements DialogInterface.OnClickListener {
+
+        private List<Transition> transitions;
+
+        public UpdateIssueStatus(List<Transition> transitions) {
+            this.transitions = transitions;
         }
 
         @Override
-        public void onSelectItem(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-            Transition selectedState = (Transition) parentView.getItemAtPosition(position);
-            new UpdateIssueTask(IssueViewActivity.this).execute(selectedState);
-            Toast.makeText(IssueViewActivity.this, selectedState.getName(), Toast.LENGTH_SHORT).show();
-        }
+        public void onClick(DialogInterface dialogInterface, int position) {
+            Transition transition = transitions.get(position);
+            new UpdateIssueTask(IssueViewActivity.this).execute(transition);
+            Toast.makeText(IssueViewActivity.this, transition.getName(), Toast.LENGTH_SHORT).show();
 
+        }
     }
 
     private class UpdateIssueTask extends ProgressAsyncTask<Transition, Void, Void> {

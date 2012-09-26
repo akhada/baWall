@@ -7,4 +7,5 @@
     <string name="passwordHintText">Password</string>
     <string name="projectSiteHintText">myproj.atlassian.net</string>
     <string name="loginButtonText">Login</string>
+    <string name="transitionText">Transition</string>
 </resources>

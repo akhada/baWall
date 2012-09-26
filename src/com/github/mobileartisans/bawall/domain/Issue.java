@@ -29,6 +29,14 @@ public class Issue {
         return transitions;
     }
 
+    public String[] getTransitionNames() {
+        String[] names = new String[transitions.size()];
+        for (int i = 0; i < transitions.size(); i++) {
+            names[i] = transitions.get(i).getName();
+        }
+        return names;
+    }
+
     public static String buildKey(String project, String key) {
         return String.format("%s-%s", project, key);
     }
