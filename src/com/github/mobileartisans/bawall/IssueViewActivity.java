@@ -12,8 +12,6 @@ import com.github.mobileartisans.bawall.component.ItemSelectedListener;
 import com.github.mobileartisans.bawall.component.ProgressAsyncTask;
 import com.github.mobileartisans.bawall.domain.*;
 
-import java.util.List;
-
 public class IssueViewActivity extends Activity {
     public static final String ISSUE_KEY = "issueKey";
     private String issueKey;
@@ -31,7 +29,7 @@ public class IssueViewActivity extends Activity {
     public class IssueDetailsTask extends ProgressAsyncTask<String, Void, Issue> {
 
         protected IssueDetailsTask(Context context) {
-            super(context);
+            super(context, "Loading issue details");
         }
 
         @Override
@@ -68,7 +66,7 @@ public class IssueViewActivity extends Activity {
     public class IssueAssigneeTask extends ProgressAsyncTask<String, Void, Assignees> {
 
         protected IssueAssigneeTask(Context context) {
-            super(context);
+            super(context, "Loading assignees");
         }
 
         @Override
@@ -105,7 +103,7 @@ public class IssueViewActivity extends Activity {
     private class UpdateIssueAssigneeTask extends ProgressAsyncTask<String, Void, Void> {
 
         protected UpdateIssueAssigneeTask(Context context) {
-            super(context);
+            super(context, "Updating assignee");
         }
 
         @Override
@@ -132,7 +130,7 @@ public class IssueViewActivity extends Activity {
 
     private class UpdateIssueTask extends ProgressAsyncTask<Transition, Void, Void> {
         protected UpdateIssueTask(Context context) {
-            super(context);
+            super(context, "Updating state");
         }
 
         @Override

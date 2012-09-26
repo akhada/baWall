@@ -38,7 +38,7 @@ public class ProjectPreference extends ListActivity {
     public class ProjectListTask extends ProgressAsyncTask<Void, Void, List<String>> {
 
         public ProjectListTask(Context context) {
-            super(context);
+            super(context, "Loading projects");
         }
 
         @Override

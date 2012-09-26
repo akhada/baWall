@@ -14,15 +14,16 @@ public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncT
     private ProgressDialog dialog;
     protected Context context;
     private HttpClientException e;
+    private String message;
 
-    protected ProgressAsyncTask(Context context) {
+    protected ProgressAsyncTask(Context context, String message) {
         this.context = context;
+        this.message = message;
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.show();
+        dialog = ProgressDialog.show(context, "", message);
     }
 
     @Override
