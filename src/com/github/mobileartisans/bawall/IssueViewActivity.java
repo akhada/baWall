@@ -43,23 +43,8 @@ public class IssueViewActivity extends Activity {
         }
 
         @Override
-        protected void onSuccess(final Issue issue) {
-            Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
-            TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
-            TextView issueTitle = (TextView) findViewById(R.id.issueTitle);
-            Button issueTransitions = (Button) findViewById(R.id.issueTransitions);
-            issueTransitions.setText(issue.getStatus());
-            issueTransitions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(IssueViewActivity.this);
-                    builder.setTitle("Transition to...");
-                    builder.setItems(issue.getTransitionNames(), new UpdateIssueStatus(issue.getTransitions())).create().show();
-                }
-            });
-            issueAssignee.setText(issue.getAssignee());
-            issueSummary.setText(issue.getSummary());
-            issueTitle.setText(issue.getKey());
+        protected void onSuccess(Issue issue) {
+            updateIssueDetails(issue);
         }
 
         @Override
@@ -67,6 +52,25 @@ public class IssueViewActivity extends Activity {
             Toast.makeText(context, "Issue not found", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(IssueViewActivity.this, HomeActivity.class));
         }
+    }
+
+    private void updateIssueDetails(final Issue issue) {
+        Button issueAssignee = (Button) findViewById(R.id.issueAssignee);
+        TextView issueSummary = (TextView) findViewById(R.id.issueSummary);
+        TextView issueTitle = (TextView) findViewById(R.id.issueTitle);
+        Button issueTransitions = (Button) findViewById(R.id.issueTransitions);
+        issueTransitions.setText(issue.getStatus());
+        issueTransitions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(IssueViewActivity.this);
+                builder.setTitle("Transition to...");
+                builder.setItems(issue.getTransitionNames(), new UpdateIssueStatus(issue.getTransitions())).create().show();
+            }
+        });
+        issueAssignee.setText(issue.getAssignee());
+        issueSummary.setText(issue.getSummary());
+        issueTitle.setText(issue.getKey());
     }
 
     public void onListAssignee(View view) {
@@ -110,17 +114,21 @@ public class IssueViewActivity extends Activity {
         }
     }
 
-    private class UpdateIssueAssigneeTask extends ProgressAsyncTask<String, Void, Void> {
+    private class UpdateIssueAssigneeTask extends ProgressAsyncTask<String, Void, Issue> {
 
         protected UpdateIssueAssigneeTask(Context context) {
             super(context, "Updating assignee");
         }
 
         @Override
-        protected Void process(String... assignees) {
+        protected Issue process(String... assignees) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
-            new AkhadaClient(preference).updateAssignee(issueKey, assignees[0]);
-            return null;
+            return new AkhadaClient(preference).updateAssignee(issueKey, assignees[0]);
+        }
+
+        @Override
+        protected void onSuccess(Issue issue) {
+            updateIssueDetails(issue);
         }
     }
 
@@ -141,16 +149,20 @@ public class IssueViewActivity extends Activity {
         }
     }
 
-    private class UpdateIssueTask extends ProgressAsyncTask<Transition, Void, Void> {
+    private class UpdateIssueTask extends ProgressAsyncTask<Transition, Void, Issue> {
         protected UpdateIssueTask(Context context) {
             super(context, "Updating state");
         }
 
         @Override
-        protected Void process(Transition... status) {
+        protected Issue process(Transition... status) {
             UserPreference.Preference preference = new UserPreference(IssueViewActivity.this).getPreference();
-            new AkhadaClient(preference).updateStatus(issueKey, status[0]);
-            return null;
+            return new AkhadaClient(preference).updateStatus(issueKey, status[0]);
+        }
+
+        @Override
+        protected void onSuccess(Issue issue) {
+            updateIssueDetails(issue);
         }
     }
 

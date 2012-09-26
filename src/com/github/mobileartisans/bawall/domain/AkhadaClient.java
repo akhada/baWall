@@ -30,10 +30,12 @@ public class AkhadaClient {
         return gson.fromJson(json, Assignees.class);
     }
 
-    public void updateStatus(String issueKey, Transition status) {
+    public Issue updateStatus(String issueKey, Transition status) {
         String url = String.format("%s/%s/issue/%s/transition", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
-        simpleHttpClient.post(String.format("{\"transition_id\":\"%s\"}", status.getId()));
+        String json = simpleHttpClient.post(String.format("{\"transition_id\":\"%s\"}", status.getId()));
+        Gson gson = new Gson();
+        return gson.fromJson(json, Issue.class);
     }
 
     public List<String> getProjects() {
@@ -45,9 +47,11 @@ public class AkhadaClient {
         return gson.fromJson(json, List.class);
     }
 
-    public void updateAssignee(String issueKey, String assignee) {
+    public Issue updateAssignee(String issueKey, String assignee) {
         String url = String.format("%s/%s/issue/%s/assignee", preference.serviceSite, preference.projectSite, issueKey);
         SimpleHttpClient simpleHttpClient = new SimpleHttpClient(preference.username, preference.password, url);
-        simpleHttpClient.put(String.format("{\"name\":\"%s\"}", assignee));
+        String json = simpleHttpClient.put(String.format("{\"name\":\"%s\"}", assignee));
+        Gson gson = new Gson();
+        return gson.fromJson(json, Issue.class);
     }
 }
